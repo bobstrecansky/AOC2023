@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function show_usage (){
+    printf "%s\n", "Usage: $0 folder/n"
+return 0
+}
+
+if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];then
+    show_usage
+elif [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+else
+    fieldalignment -fix ./$1
+fi
