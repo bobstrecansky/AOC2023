@@ -1,0 +1,31 @@
+import (
+	"testing"
+)
+
+type test struct {
+    input []string
+	result  bool
+}
+
+func TestGetAllElements(t *testing.T) {
+	tests := []test{
+		{
+			treeOne: &TreeNode{Val: 2, Left: &TreeNode{Val: 1, Left: nil, Right: nil}, Right: &TreeNode{Val: 4, Left: nil, Right: nil}},
+			treeTwo: &TreeNode{Val: 1, Left: &TreeNode{Val: 0, Left: nil, Right: nil}, Right: &TreeNode{Val: 3, Left: nil, Right: nil}},
+			result:  []int{0, 1, 1, 2, 3, 4},
+		},
+		{
+			treeOne: &TreeNode{Val: 1, Left: nil, Right: &TreeNode{Val: 8, Left: nil, Right: nil}},
+			treeTwo: &TreeNode{Val: 8, Left: &TreeNode{Val: 1, Left: nil, Right: nil}, Right: nil},
+			result:  []int{1, 1, 8, 8},
+		},
+	}
+
+	for _, tc := range tests {
+		got := getAllElements(tc.treeOne, tc.treeTwo)
+		want := tc.result
+		if !reflect.DeepEqual(got, want) {
+			t.Fatalf("input: %v %v, expected: %v, got: %v", tc.treeOne, tc.treeTwo, tc.result, got)
+		}
+	}
+}

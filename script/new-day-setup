@@ -1,0 +1,47 @@
+#!/bin/bash
+
+function show_usage (){
+    printf "%s\n", "Usage: $0 day exercise\n"
+return 0
+}
+
+if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];then
+    show_usage
+elif [ "$#" -ne 2 ]; then
+    echo "Illegal number of parameters"
+else
+    git checkout -b "$1_$2"
+    mkdir "$1_$2"
+    touch "$1_$2/$2.go"
+    touch "$1_$2/$2_test.go"
+
+    echo "package $2" >> "$1_$2/$2.go"
+    echo "package $2" >> "$1_$2/$2_test.go"
+    cat >> "$1_$2/$2_test.go" << 'endmsg'
+
+import "testing"
+
+type test struct {
+	input  string
+	result bool
+}
+
+func TestFUNCTIONNAME(t *testing.T) {
+	tests := []test{
+		{input: "foo", result: true},
+		{input: "Google", result: true},
+		{input: "FlaG", result: false},
+		{input: "fffffF", result: false},
+	}
+
+	for _, tc := range tests {
+		got := FUNCTIONNAME(tc.input)
+		want := tc.result
+		if got != want {
+			t.Fatalf("input: %v, expected: %v, got: %v", tc.input, tc.result, got)
+		}
+	}
+}
+endmsg
+
+fi
